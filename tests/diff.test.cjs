@@ -1,0 +1,15 @@
+const { test } = require("node:test");
+const assert = require("node:assert/strict");
+const { compare } = require("../src/diff.js");
+test("object order is insignificant", () => assert.deepEqual(compare({a:1,b:2},{b:2,a:1}),[]));
+test("missing and null differ", () => assert.deepEqual(compare({}, {a:null}), [{type:"added",path:"/a",after:null}]));
+test("types differ", () => assert.equal(compare({a:1}, {a:"1"})[0].type,"changed"));
+test("nested fields and escaped pointers", () => assert.equal(compare({"a/b":{"~":1}}, {"a/b":{"~":2}})[0].path,"/a~1b/~0"));
+test("arrays compare by index", () => assert.deepEqual(compare([1,2],[1]),[{type:"removed",path:"/1",before:2}]));
+test("root primitive change", () => assert.deepEqual(compare(null,false),[{type:"changed",path:"",before:null,after:false}]));
+test("array and object distinct", () => assert.equal(compare([], {})[0].path,""));
+test("prototype keys are ordinary data", () => assert.equal(compare(JSON.parse('{"__proto__":1}'),JSON.parse('{"__proto__":2}'))[0].path,"/__proto__"));
+test("input is not mutated", () => { const a={x:[1]},b={x:[2]};compare(a,b);assert.deepEqual(a,{x:[1]});assert.deepEqual(b,{x:[2]}); });
+test("depth limit is explicit", () => { let a=0,b=1; for(let i=0;i<160;i++){a={x:a};b={x:b};} assert.throws(()=>compare(a,b),/depth/); });
+test("removed subtree recorded once", () => assert.deepEqual(compare({a:{b:1}},{}),[{type:"removed",path:"/a",before:{b:1}}]));
+test("empty field name supported", () => assert.equal(compare({"":1},{"":2})[0].path,"/"));

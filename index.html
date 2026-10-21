@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DiffDesk | JSON comparison</title><link rel="stylesheet" href="src/style.css"><script src="src/diff.js" defer></script><script src="src/app.js" defer></script></head>
+<body><main>
+<header><a class="brand" href="index.html"><span class="logo">{ }</span> DiffDesk</a><span class="privacy">LOCAL ONLY · NO UPLOADS</span></header>
+<section class="intro"><p class="eyebrow">DEVELOPER WORKSPACE / 01</p><h1>Spot the change.<br><span>Keep the context.</span></h1><p>Compare JSON structures, inspect nested fields and export an exact change list.</p></section>
+<div class="toolbar"><button id="compare" class="primary">Compare JSON <span aria-hidden="true">↗</span></button><button id="sample">Load example</button><button id="swap">Swap sides</button><button id="clear">Clear</button><span class="hint">Ctrl / ⌘ + Enter to compare</span></div>
+<section class="editors" aria-label="JSON inputs">
+<div class="editor"><div class="editorhead"><label for="before"><span class="dot before"></span> ORIGINAL</label><label class="filebutton">Open JSON<input type="file" id="beforeFile" accept=".json,application/json"></label></div><textarea id="before" spellcheck="false" placeholder='{"version": 1}' aria-describedby="inputhint"></textarea></div>
+<div class="editor"><div class="editorhead"><label for="after"><span class="dot after"></span> UPDATED</label><label class="filebutton">Open JSON<input type="file" id="afterFile" accept=".json,application/json"></label></div><textarea id="after" spellcheck="false" placeholder='{"version": 2}' aria-describedby="inputhint"></textarea></div>
+</section>
+<p id="inputhint" class="hint">Object key order is ignored. Arrays are compared by index. Maximum 1 MiB per input.</p>
+<p id="status" role="status" aria-live="polite">Load the example or paste two JSON documents to begin.</p>
+<section id="results" hidden><div class="resulthead"><div><p class="eyebrow">COMPARISON RESULTS</p><h2 id="summary"></h2></div><button id="export">Export changes</button></div>
+<div class="filters"><label>Change type <select id="filter"><option value="all">All changes</option><option value="added">Added</option><option value="removed">Removed</option><option value="changed">Changed</option></select></label><label class="search">Find a path <input id="search" type="search" placeholder="e.g. /user/name"></label></div>
+<div class="tablewrap"><table><thead><tr><th>JSON pointer / change</th><th>Original value</th><th>Updated value</th></tr></thead><tbody id="rows"></tbody></table></div><p id="empty" hidden>No changes match these filters.</p></section>
+<footer><span>DiffDesk</span><span>Structural comparison. Zero dependencies. Your data stays in this tab.</span></footer>
+</main></body></html>

@@ -1,0 +1,13 @@
+{
+  "name": "diffdesk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local structural JSON comparison workspace",
+  "scripts": {
+    "test": "node --test tests/diff.test.cjs"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "license": "MIT"
+}
